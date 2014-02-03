@@ -602,7 +602,7 @@ function rsyncMagic {
             fi
             if [[ "$compressSource" = [Yy][Ee][Ss] ]]; then
                 tarArray=($(tarBackup $rsyncFile))                              # set $rsyncFile variable to new temporary name
-                if [[ ${tarArray[0]} == /tmp/*\.tar\.gz ]]; then                # ensure $rsyncFile ends with .tar.gz
+                if [[ ${tarArray[0]} == *\.tar\.gz ]]; then                # ensure $rsyncFile ends with .tar.gz
                     rsyncFile="${tarArray[0]}"
                     rsyncFileMd5=${tarArray[1]}
                     tarSnapshotFileLvl0Err=${tarArray[2]}
