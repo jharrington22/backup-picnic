@@ -187,8 +187,9 @@ while getopts ":axkoiwcju:y:s:d:p:b:r:l:m:n:g:t:e:E:T:I:h" opt; do
 # Setup defaults for backup.sh
 #-------------------------------------------------------------------------------
 date=`/bin/date +%y%m%d-%H%M%S`                                                # time stamp : YYYYMMDD-hhmmss
+logDate=`/bin/date +%y%m%d-%s`                                                 # time stamp for log: YYYYMMDD-epoch
 if [ -z $port ]; then port="22"; fi                                            # default SSH port
-if [ -z $log ]; then log="/tmp/${date}-backup.log"; fi                         # default log file
+if [ -z $log ]; then log="/tmp/${logDate}-backup.log"; fi                         # default log file
 if [ -z $copyMode ]; then copyMode="rsync"; fi                                 # defualt copy mode
 if [ -z $useSsh ]; then useSsh="yes"; fi                                       # default to using ssh
 if [ -z $compressionEngine ]; then compressionEngine="/bin/tar"; fi            # default to using tar & gz for compression
