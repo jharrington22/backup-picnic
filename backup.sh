@@ -258,6 +258,7 @@ compress="/bin/gzip"
 compressionEngine="/bin/tar"
 compressionOpts="-czf"
 md5sumCmd="md5sum"
+errorWarning=0
 remoteCheckDestDir="if [ ! -d \"${destinationDirectory}\" ]; then echo \"1\"; else echo \"0\"; fi"
 if [ ! -z $addNice ]; then
     compressionEngine="nice /bin/tar"
@@ -306,6 +307,22 @@ function error_exit
     sed -i 's/Subject:\ Backup\ Complete/Subject:\ Backup\ Failed/' $log
     cat $log | /usr/sbin/sendmail -t
     exit 1
+}
+
+function error_warning
+{
+
+#    ----------------------------------------------------------------
+#    Function to change email to "issue"du to non fatal program error
+#        Accepts 1 argument:
+#            string containing descriptive error message
+#    ----------------------------------------------------------------
+
+    if [[ $errorWarning == 0 ]]; then
+        errorWarning=1
+        echo "${PROGNAME}: ${1:-"Unknown Issue"}" >> $log
+        sed -i 's/Subject:\ Backup\ Complete/Subject:\ Backup\ Issue/' $log
+    fi
 }
 
 #-------------------------------------------------------------------------------
@@ -759,7 +776,7 @@ if ! [ -z $sourceDirectory ]; then
     if [ $tarAllFilesInSource = 0 ]; then
         if [[ $goofy == "yes" ]]; then
             if ! [ $($sshCmd "test -e ${sourceDirectory} && echo 0 || echo 0") = 0 ]; then
-                echo "$sourceDirectory does not exist not rsyncing at line: $LINENO" >> $log
+                error_warning "$sourceDirectory does not exist not rsyncing at line: $LINENO"
             else
                 for folder in $(${sshCmd} "ls ${sourceDirectory}");
                 do
@@ -773,7 +790,7 @@ if ! [ -z $sourceDirectory ]; then
             fi
         else
             if ! [ -e $sourceDirectory ]; then
-                echo "$sourceDirectory does not exist not rsyncing at line: $LINENO" >> $log
+                error_warning "$sourceDirectory does not exist not rsyncing at line: $LINENO"
             else
                 for folder in $(ls ${sourceDirectory});
                 do
