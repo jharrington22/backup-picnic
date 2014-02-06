@@ -3,6 +3,15 @@
 
 PROGNAME=$(basename $0)
 
+#-------------------------------------------------------------------------------
+# Set email To and From
+#-------------------------------------------------------------------------------
+emailToName="Example Person"
+emailTo="someone@example.com"
+emailFromName="Example Person"
+emailFrom="someone@example.com"
+#-------------------------------------------------------------------------------
+
 globalStartTime=$(date +%s)
 
 usage() {
@@ -196,13 +205,13 @@ if [ -z ${tempTarFileLocation} ]; then tempTarFileLocation="None"; fi
 #-------------------------------------------------------------------------------
 
 if [ -z $remoteServer ]; then
-echo "From: Someone <someone@example.com>
-To: Someone Else <someone.else@example.com>
+echo "From: ${emailFromName} <${emailFrom}>
+To: ${emailTo} <${emailToName}>
 Subject: Backup Complete $(hostname) $date
 " >> $log
 else
-echo "From: Someone <someone@example.com>
-To: Someone Else <someone.else@example.com>
+echo "From: ${emailFromName} <${emailFrom}>
+To: ${emailTo} <${emailToName}>
 Subject: Backup Complete $remoteServer $date
 " >> $log
 fi
