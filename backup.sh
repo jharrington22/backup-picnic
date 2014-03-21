@@ -207,12 +207,12 @@ if [ -z ${tempTarFileLocation} ]; then tempTarFileLocation="None"; fi
 
 if [ -z $remoteServer ]; then
 echo "From: ${emailFromName} <${emailFrom}>
-To: ${emailTo} <${emailToName}>
+To: ${emailToName} <${emailTo}>
 Subject: Backup Complete $(hostname) $date
 " >> $log
 else
 echo "From: ${emailFromName} <${emailFrom}>
-To: ${emailTo} <${emailToName}>
+To: ${emailToName} <${emailTo}>
 Subject: Backup Complete $remoteServer $date
 " >> $log
 fi
