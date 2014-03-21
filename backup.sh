@@ -725,7 +725,7 @@ function mySqlMagic {
 
         if [[ $allDatabases = [Yy]es ]]; then
             sqlBackup=1
-            for database in `/usr/bin/mysql -u $sqlUser -p"$sqlPass" -Bse $localSqlCmd`
+            for database in `/usr/bin/mysql -u $sqlUser -p$sqlPass -h $sqlHost -Bse "show databases"`
             do
                 local backupFile="${backupFileDir}/$database.dump.gz"
                 if { [[ ! $database == "information_schema" ]] && [[ ! $database == "performance_schema" ]]; }; then
