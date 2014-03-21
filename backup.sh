@@ -730,7 +730,7 @@ function mySqlMagic {
                 local backupFile="${backupFileDir}/$database.dump.gz"
                 if { [[ ! $database == "information_schema" ]] && [[ ! $database == "performance_schema" ]]; }; then
                     echo "backing up $database to $backupFile at `date`" >> $log
-                    $localSqlDump $database --lock-tables=false | $compress > $backupFile 2>> /dev/null
+                    $localSqlDump $database --lock-tables=false | $compress > $backupFile 2>> $log
                     echo "backing up $database to $backupFile complete at `date`" >> $log
                     if [ ${#databases[@]} -eq 0 ]; then 					# make an array of database files to be copied
                         databases[0]=$backupFile
