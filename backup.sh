@@ -220,15 +220,15 @@ fi
 tempDirectory="$date"
 destinationDirectory="$destinationDirectory"
 if [ ! -z $timeStampDir ]; then
-        timeStampDir=$(date +"%Y%m%d-%H%M%S")
-        destinationDirectory="${destinationDirectory}/${timeStampDir}/"
-        dateTime=$timeStampDir
+    timeStampDir=$(date +"%Y%m%d-%H%M%S")
+    destinationDirectory="${destinationDirectory}/${timeStampDir}/"
+    dateTime=$timeStampDir
 fi
 if [ ! -z $timeStampDayDir ]; then 
-        timeStampDayDir=$(date +"%Y%m%d")
-        destinationDirectory="${destinationDirectory}/${timeStampDayDir}/"
-        dateTime=$timeStampDayDir
-        tarSnapshotTimeStamp=${timeStampDayDir}
+    timeStampDayDir=$(date +"%Y%m%d")
+    destinationDirectory="${destinationDirectory}/${timeStampDayDir}/"
+    dateTime=$timeStampDayDir
+    tarSnapshotTimeStamp=${timeStampDayDir}
 else
     tarSnapshotTimeStamp=$(date +"%Y%m%d-%H%M%S")
 fi
