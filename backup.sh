@@ -255,7 +255,7 @@ fi
 rsyncMagicError=0
 remoteSqlCmd="\"show databases\""
 remoteSqlDump="/usr/bin/mysqldump -u \$MYSQL_USER -p\$MYSQL_PASS -h \"$sqlHost\""
-localSqlDump="/usr/bin/mysqldump -u $sqlUser -p\"$sqlPass\" -h \"$sqlHost\""
+localSqlDump="/usr/bin/mysqldump -u $sqlUser -p$sqlPass -h $sqlHost"
 localSqlCmd="\"show databases\""
 compress="/bin/gzip"
 compressionEngine="/bin/tar"
