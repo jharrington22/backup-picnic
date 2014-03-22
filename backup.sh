@@ -228,6 +228,9 @@ if [ ! -z $timeStampDayDir ]; then
         timeStampDayDir=$(date +"%Y%m%d")
         destinationDirectory="${destinationDirectory}/${timeStampDayDir}/"
         dateTime=$timeStampDayDir
+        tarSnapshotTimeStamp=${timeStampDayDir}
+else
+    tarSnapshotTimeStamp=$(date +"%Y%m%d-%H%M%S")
 fi
 tarSnapshotDir="/tmp/backup-snapshots/"
 tarSnapshotTimeStamp=${timeStampDayDir}
