@@ -336,7 +336,7 @@ function tarBackup {
     tarSnapshotFileLvl0Err=0
     compressionStatus=1
     local _tarFile=$1
-    local _tarFileName=${_tarFile}
+    local _tarFileName=$(basename ${_tarFile})
     if ! [ -z $excludeFromCompression ]; then
         if [[ $compressionEngine == "/bin/tar" ]]; then
             # TODO: compressionOpts not here
@@ -349,21 +349,21 @@ function tarBackup {
     # Setup incremental backup if selected (-I)
     #-------------------------------------------------------------------------------
     if [ $incrementalTar = 0 ]; then
-        tarSnapshotFile=${tarSnapshotDir}$(basename ${_tarFileName})-${tarSnapshotTimeStamp}.snar
+        tarSnapshotFile=${tarSnapshotDir}${_tarFileName}-${tarSnapshotTimeStamp}.snar
         if [[ $goofy == "yes" ]]; then
-            tarSnapshotFileLvl0=$($sshCmd "test -a ${tarSnapshotDir}$(basename ${_tarFileName})-[0-9]*-orig.snar && ls ${tarSnapshotDir}$(basename ${_tarFileName})-[0-9]*-orig.snar || echo 1") >> $log 2>&1
+            tarSnapshotFileLvl0=$($sshCmd "test -a ${tarSnapshotDir}${_tarFileName}-[0-9]*-orig.snar && ls ${tarSnapshotDir}${_tarFileName}-[0-9]*-orig.snar || echo 1") >> $log 2>&1
         else
-            tarSnapshotFileLvl0=$(test -a ${tarSnapshotDir}$(basename ${_tarFileName})-[0-9]*-orig.snar && ls ${tarSnapshotDir}$(basename ${_tarFileName})-[0-9]*-orig.snar || echo 1) >> $log 2>&1
+            tarSnapshotFileLvl0=$(test -a ${tarSnapshotDir}${_tarFileName}-[0-9]*-orig.snar && ls ${tarSnapshotDir}${_tarFileName}-[0-9]*-orig.snar || echo 1) >> $log 2>&1
         fi
         if [ ${tarSnapshotFileLvl0} = 1 ]; then
-            tarSnapshotFileLvl0=${tarSnapshotDir}$(basename ${_tarFileName})-${tarSnapshotTimeStamp}-orig.snar
+            tarSnapshotFileLvl0=${tarSnapshotDir}${_tarFileName}-${tarSnapshotTimeStamp}-orig.snar
             tarSnapshotFileLvl0Err=1
             tarSnapshotFileLvl0Removed=0
         else
             tarSnapshotFileLvl0Err=0
         fi
         if [ $incrementalTarLevel = 0 ]; then
-            tarSnapshotFileLvl0New=${tarSnapshotDir}$(basename ${_tarFileName})-${tarSnapshotTimeStamp}-orig.snar
+            tarSnapshotFileLvl0New=${tarSnapshotDir}${_tarFileName}-${tarSnapshotTimeStamp}-orig.snar
             if [ ${tarSnapshotFileLvl0Removed} = 1 ]; then
                 if [ "$goofy" = "yes" ]; then
                     tarSnapshotFileLvl0Removed=$($sshCmd "test -a ${tarSnapshotFileLvl0} && rm ${tarSnapshotFileLvl0} && echo 0 || echo 1") >> $log 2>&1
@@ -386,9 +386,9 @@ function tarBackup {
     echo -n "Compressing source before transfer: " >> $log
     # Change temp tar'ing directory if -T is specified. Auto creates dir if it does not exist.
     if [[ $tempTarFileLocation == "None" ]]; then
-        local _tarFileTmp="/tmp/$(basename ${_tarFileName})-${date}.tar.gz"        # destination of tar file, should be inside /tmp for safety
+        local _tarFileTmp="/tmp/${_tarFileName}-${date}.tar.gz"        # destination of tar file, should be inside /tmp for safety
     else
-        local _tarFileTmp="${tempTarFileLocation}/$(basename ${_tarFileName})-${date}.tar.gz"
+        local _tarFileTmp="${tempTarFileLocation}/${_tarFileName}-${date}.tar.gz"
         if [ "$goofy" = "yes" ]; then
             # TODO: Ignore this check if its already been completed once this run
             local _tarFileTmpExist=$($sshCmd "test -d ${tempTarFileLocation} && echo 0 || echo 1") >> $log 2>&1 
