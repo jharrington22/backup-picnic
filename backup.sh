@@ -442,19 +442,19 @@ function tarBackup {
     else
         if [ $incrementalTar = 0 ] && [ $incrementalTarLevel = 0 ]; then
             $compressionEngine $compressionOpts ${_tarFileTmp} $_tarFile >> $log 2>&1
-            if [ $? -eq 0 ]; then compressionStatus=0; fi
+            if [ $? -eq 0 ]; then compressionStatus=0; tarSnapshotFileLvl0Err=0; fi
                 cp ${tarSnapshotFile} ${tarSnapshotFileLvl0} >> $log 2>&1
         elif [ $incrementalTar = 0 ] && [ $incrementalTarLevel = 1 ]; then
             if ! [ ${tarSnapshotFileLvl0Err} = 1 ]; then
                 cp ${tarSnapshotFileLvl0} ${tarSnapshotFile} && $compressionEngine $compressionOpts ${_tarFileTmp} $_tarFile >> $log 2>&1
-                if [ $? -eq 0 ]; then compressionStatus=0; fi
+                if [ $? -eq 0 ]; then compressionStatus=0; tarSnapshotFileLvl0Err=0; fi
             else
                 echo "No level 0 snapshot file - Run level 0 tar for ${_tarFileTmp} first. Line: $LINENO" >> $log
                 tarSnapshotFileLvl0Err=1
             fi
         else
             $compressionEngine $compressionOpts ${_tarFileTmp} $_tarFile >> $log 2>&1
-            if [ $? -eq 0 ]; then compressionStatus=0; fi
+            if [ $? -eq 0 ]; then compressionStatus=0; tarSnapshotFileLvl0Err=0; fi
         fi
         if [ $compressionStatus -eq 0 ]; then
             echo "OK" >> $log
