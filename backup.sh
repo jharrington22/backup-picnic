@@ -233,7 +233,7 @@ else
     tarSnapshotTimeStamp=$(date +"%Y%m%d-%H%M%S")
 fi
 tarSnapshotDir="/tmp/backup-snapshots/"
-tarSnapshotTimeStamp=${timeStampDayDir}
+#tarSnapshotTimeStamp=${timeStampDayDir}
 tarSnapshotFileLvl0Err=0
 tarSnapshotFileLvl0Removed=1
 sourceDirectory="$sourceDirectory"
